@@ -36,11 +36,13 @@ namespace Library.Infra.Data.Repository
         public virtual void Update(TEntity obj)
         {
             DbSet.Update(obj);
+            SaveChanges();
         }
 
         public virtual void Remove(Guid id)
         {
             DbSet.Remove(DbSet.Find(id));
+            SaveChanges();
         }
 
         public int SaveChanges()

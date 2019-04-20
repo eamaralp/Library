@@ -1,8 +1,6 @@
 ﻿using Library.Domain.Entities;
 using Library.Infra.Data.Mappings;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 
 namespace Library.Infra.Data.Context
 {
@@ -28,18 +26,6 @@ namespace Library.Infra.Data.Context
 
         public override int SaveChanges()
         {
-            //foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("DataInclusao") != null))
-            //{
-            //    if (EntityState.Added.Equals(entry.State))
-            //    {
-            //        entry.Property("DataInclusao").CurrentValue = DateTime.Now;
-            //        entry.Property("Ativo").CurrentValue = true;
-            //    }
-
-            //    if (EntityState.Modified.Equals(entry.State))
-            //        entry.Property("DataInclusao").IsModified = false;
-            //}
-
             return base.SaveChanges();
         }
     }

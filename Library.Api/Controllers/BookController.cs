@@ -1,6 +1,5 @@
 ﻿using Library.Application.Services.Intercafes;
 using Library.Domain.Dto;
-using Library.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +7,7 @@ using System;
 
 namespace Library.Api.Controllers
 {
+    [AllowAnonymous]
     [Route("api/books")]
     [ApiController]
     public class BookControllers : ControllerBase
@@ -19,26 +19,25 @@ namespace Library.Api.Controllers
             _bookService = bookService;
         }
 
-        //[HttpGet]
-        //[Route("Get/{id:guid}")]
-        //public IActionResult GetById(Guid id)
-        //{
-        //    try
-        //    {
-        //        var result = _repository.GetById(id);
-        //        if (result != null)
-        //            return Ok(result);
+        [HttpGet]
+        [Route("get/{id:guid}")]
+        public IActionResult GetById(Guid id)
+        {
+            try
+            {
+                var result = _bookService.GetById(id);
+                if (result != null)
+                    return Ok(result);
 
-        //        return NotFound();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError, e);
-        //    }
-        //}
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
 
         [HttpGet]
-        [AllowAnonymous]
         [Route("list-all")]
         public IActionResult Index()
         {
@@ -57,7 +56,6 @@ namespace Library.Api.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [Route("post")]
         public IActionResult Create([FromBody]BookDto dto)
         {
@@ -73,16 +71,28 @@ namespace Library.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("Delete/{id}")]
-        public IActionResult Delete(long id)
+        [Route("delete/{id:guid}")]
+        public IActionResult Delete(Guid id)
         {
             try
             {
-                //var result = _service.GetById(id);
-                //if (result != null)
-                //    return Ok(result);
+                _bookService.Delete(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
 
-                return NotFound();
+        [HttpGet]
+        [Route("update")]
+        public IActionResult Update([FromBody]BookDto dto)
+        {
+            try
+            {
+                _bookService.Update(dto);
+                 return Ok();
             }
             catch (Exception e)
             {

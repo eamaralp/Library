@@ -35,5 +35,22 @@ namespace Library.Application.Services
             var books = _bookRepository.GetAll().ProjectTo<BookDto>(_mapper.ConfigurationProvider);
             return books.OrderByDescending(x => x.Title);
         }
+
+        public BookDto GetById(Guid id)
+        {
+            return _mapper.Map<BookDto>(_bookRepository.GetById(id));
+        }
+
+        public void Update(BookDto bookDto)
+        {
+            var book = _mapper.Map<Book>(bookDto);
+
+            _bookRepository.Update(book);
+        }
+
+        public void Delete(Guid id)
+        {
+            _bookRepository.Remove(id);
+        }
     }
 }
