@@ -1,4 +1,5 @@
 ﻿using Library.Api.Configurations;
+using Library.Api.Cors;
 using Library.Infra.CrossCutting.IoC;
 using Library.Infra.Data.Context;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +43,7 @@ namespace Library.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseCorsMiddleware();
 
         }
         private static void RegisterServices(IServiceCollection services)

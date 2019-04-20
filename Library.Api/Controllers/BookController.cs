@@ -1,6 +1,7 @@
 ﻿using Library.Application.Services.Intercafes;
 using Library.Domain.Dto;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -38,6 +39,7 @@ namespace Library.Api.Controllers
         }
 
         [HttpGet]
+        [DisableCors]
         [Route("list-all")]
         public IActionResult Index()
         {
