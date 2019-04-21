@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
-import { DatePicker } from 'react-datepicker';
-import { API_ENDPOINTS } from '../config/api-config.js';
+import { API_CONFIG } from '../config/api-config.js';
 
 export class AddBook extends Component {
   static displayName = "Test";
 
   constructor(props) {
     super(props);
-    this.state = {
-      book: {
-        title: '',
-        author: '',
-        publisher: '',
-        publishDate: null,
-      }
-    };
+    if(props.location.state == undefined){
+      this.state = {
+        book: {
+          id:null,
+          title: '',
+          author: '',
+          publisher: '',
+          publishDate: null,
+        }
+      };
+    }
+    else{
+      this.state = {book: props.location.state.book}
+    }
+
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -42,9 +48,12 @@ export class AddBook extends Component {
   }
 
   saveBook() {
+
+    let endpointConfig = this.state.book.id == null ? API_CONFIG.post : API_CONFIG.edit;
+
     (async () => {
-      const rawResponse = await fetch(API_ENDPOINTS.post, {
-        method: 'POST',
+      const rawResponse = await fetch(endpointConfig.endpoint, {
+        method: endpointConfig.method,
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -52,8 +61,7 @@ export class AddBook extends Component {
         body: JSON.stringify(this.state.book)
       });
       const content = await rawResponse.json();
-
-      console.log(content);
+      this.props.history.push(`/list-books`);
     })();
   }
 
@@ -68,7 +76,7 @@ export class AddBook extends Component {
               type="text"
               className="form-control"
               name="title"
-              value={this.state.title}
+              value={this.state.book.title}
               onChange={this.handleInputChange}
             />
           </div>
@@ -77,7 +85,7 @@ export class AddBook extends Component {
             <input type="text"
               name="author"
               className="form-control"
-              value={this.state.author}
+              value={this.state.book.author}
               onChange={this.handleInputChange}
             />
           </div>
@@ -86,7 +94,7 @@ export class AddBook extends Component {
             <input type="text"
               name="publisher"
               className="form-control"
-              value={this.state.publisher}
+              value={this.state.book.publisher}
               onChange={this.handleInputChange}
             />
           </div>

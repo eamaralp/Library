@@ -37,5 +37,11 @@ namespace Library.Web.Controllers
         {
             return await _bookService.DeleteAsync(id);
         }
+
+        [HttpPut("[action]")]
+        public async Task<HttpResponseMessage> PutAsync([FromBody] BookModel book)
+        {
+            return await _bookService.PutAsync(book);
+        }
     }
 }

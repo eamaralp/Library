@@ -87,7 +87,7 @@ namespace Library.Api.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPut]
         [Route("update")]
         public IActionResult Update([FromBody]BookDto dto)
         {

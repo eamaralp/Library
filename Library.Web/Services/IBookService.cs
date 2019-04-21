@@ -11,6 +11,7 @@ namespace Library.Web.Services
     {
         Task<IEnumerable<BookModel>> GetAllAsync();
         Task<HttpResponseMessage> PostAsync([FromBody] BookModel book);
+        Task<HttpResponseMessage> PutAsync([FromBody] BookModel book);
         Task<HttpResponseMessage> DeleteAsync(Guid id);
     }
 }

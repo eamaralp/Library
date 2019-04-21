@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
-import { API_ENDPOINTS } from '../config/api-config.js';
+import { API_CONFIG } from '../config/api-config.js';
 
 export class ListBooks extends Component {
   static displayName = "Test";
@@ -11,7 +10,7 @@ export class ListBooks extends Component {
 
     this.deleteBook = this.deleteBook.bind(this);
 
-      fetch(API_ENDPOINTS.getAll)
+      fetch(API_CONFIG.getAll.endpoint)
       .then(response => response.json())
       .then(data => {
           this.setState({ books: data, loading: false });
@@ -23,10 +22,17 @@ export class ListBooks extends Component {
   }
 
   deleteBook = bookId => {
-    fetch(API_ENDPOINTS.delete + bookId, { method: 'delete'})
+    fetch(API_CONFIG.delete.endpoint + bookId, { method: API_CONFIG.delete.method})
     .then(response => response.json())
   
     window.location.reload();
+  };
+
+  editBook = book => {
+    this.setState({ editBook: book})
+    this.props.history.push({pathname: `/add-book`,
+                             state: { book: book } }
+      );
   };
 
   renderBooksTable (books) {
@@ -53,7 +59,7 @@ export class ListBooks extends Component {
                   <button onClick={() => this.deleteBook(book.id)}  className="btn btn-danger">Delete</button>
                 </div>
                 <div>
-                <button onClick={() => this.deleteBook(book.id)}  className="btn btn-primary">Edit</button>
+                <button onClick={() => this.editBook(book)}  className="btn btn-primary">Edit</button>
                 </div>
               </td>
             </tr>

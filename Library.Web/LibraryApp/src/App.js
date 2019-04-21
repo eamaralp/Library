@@ -4,12 +4,10 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { ListBooks } from './components/ListBooks';
 import { Counter } from './components/Counter';
-import { API_ENDPOINTS } from './config/api-config.js';
 import { AddBook } from './components/AddBook';
 
 export default class App extends Component {
   static displayName = App.name;
-  static endpoints = API_ENDPOINTS;
 
   render () {
     return (

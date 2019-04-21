@@ -40,6 +40,15 @@ namespace Library.Web.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        public async Task<HttpResponseMessage> PutAsync([FromBody] BookModel book)
+        {
+            var httpContent = new StringContent(JsonConvert.SerializeObject(book));
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await _httpClient.PutAsync("update", httpContent);
+
+            return response.EnsureSuccessStatusCode();
+        }
 
         public async Task<BookModel> GetByIdAsync(Guid id)
         {
