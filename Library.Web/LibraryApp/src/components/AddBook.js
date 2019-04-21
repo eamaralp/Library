@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { DatePicker } from 'react-datepicker';
 import { API_ENDPOINTS } from '../config/api-config.js';
 
 export class AddBook extends Component {
@@ -9,10 +10,9 @@ export class AddBook extends Component {
     this.state = {
       book: {
         title: '',
-        subtitle: '',
         author: '',
         publisher: '',
-        publishDate: '',
+        publishDate: null,
       }
     };
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -35,15 +35,26 @@ export class AddBook extends Component {
 
     this.setState(prevState => ({
       book: {
-          ...prevState.book,
-          [name]: value
+        ...prevState.book,
+        [name]: value
       }
     }))
   }
 
-  saveBook(){
-    fetch(API_ENDPOINTS.post , { method: 'post', body: JSON.stringify( this.state.book )})
-    .then(response => response.json())
+  saveBook() {
+    (async () => {
+      const rawResponse = await fetch(API_ENDPOINTS.post, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.book)
+      });
+      const content = await rawResponse.json();
+
+      console.log(content);
+    })();
   }
 
   render() {
@@ -62,20 +73,30 @@ export class AddBook extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Subtitle: </label>
+            <label>Author: </label>
             <input type="text"
-              name="subtitle"
+              name="author"
               className="form-control"
-              value={this.state.subtitle}
+              value={this.state.author}
               onChange={this.handleInputChange}
             />
           </div>
           <div className="form-group">
             <label>Authos: </label>
             <input type="text"
-              name="author"
+              name="publisher"
               className="form-control"
-              value={this.state.author}
+              value={this.state.publisher}
+              onChange={this.handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Publish Date: </label>
+            <input type="date" data-date-format="YYYY"
+              name="publishDate"
+              className="form-control"
+              value={this.state.publishDate}
               onChange={this.handleInputChange}
             />
           </div>

@@ -30,11 +30,9 @@ namespace Library.Infra.Data.Migrations
                         .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<DateTime?>("PublishDate");
+
                     b.Property<string>("Publisher");
-
-                    b.Property<string>("Subject");
-
-                    b.Property<string>("Subtitle");
 
                     b.Property<string>("Title");
 

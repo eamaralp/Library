@@ -13,10 +13,9 @@ namespace Library.Infra.Data.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    Subtitle = table.Column<string>(nullable: true),
-                    Subject = table.Column<string>(nullable: true),
                     Publisher = table.Column<string>(nullable: true),
-                    Author = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    Author = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    PublishDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

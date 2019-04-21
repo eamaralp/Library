@@ -35,7 +35,6 @@ export class ListBooks extends Component {
         <thead>
           <tr>
             <th>Title</th>
-            <th>Subtitle</th>
             <th>Author</th>
             <th>Publisher</th>
             <th>Publish Date</th>
@@ -46,7 +45,6 @@ export class ListBooks extends Component {
           {books.map(book =>
               <tr key={book.id}>
               <td>{book.title}</td>
-              <td>{book.subtitle}</td>
               <td>{book.author}</td>
               <td>{book.publisher}</td>
               <td>{book.publishDate}</td>

@@ -1,8 +1,10 @@
 ﻿using Library.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Library.Web.Services
@@ -30,7 +32,10 @@ namespace Library.Web.Services
 
         public async Task<HttpResponseMessage> PostAsync([FromBody] BookModel book)
         {
-            var response = await _httpClient.PostAsJsonAsync("post", book);
+            var httpContent = new StringContent(JsonConvert.SerializeObject(book));
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await _httpClient.PostAsync("post", httpContent);
 
             return response.EnsureSuccessStatusCode();
         }
