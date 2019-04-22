@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { API_CONFIG } from '../config/api-config.js';
+import './AddBook.css';
 
 export class AddBook extends Component {
   static displayName = "Test";
@@ -22,16 +23,12 @@ export class AddBook extends Component {
     }
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
   }
 
-  handleClose() {
-    this.setState({ show: false });
-  }
-
-  handleShow() {
-    this.setState({ show: true });
+  handleBlur = (field) => (evt) => {
+    this.setState({
+      touched: { ...this.state.touched, [field]: true },
+    });
   }
 
   handleInputChange(event) {
@@ -47,7 +44,10 @@ export class AddBook extends Component {
     }))
   }
 
-  saveBook() {
+  saveBook(event) {
+
+    if(this.state.book.title == '' || this.state.book.author == '')
+      return;
 
     let endpointConfig = this.state.book.id == null ? API_CONFIG.post : API_CONFIG.edit;
 
@@ -61,8 +61,11 @@ export class AddBook extends Component {
         body: JSON.stringify(this.state.book)
       });
       const content = await rawResponse.json();
-      this.props.history.push(`/list-books`);
-    })();
+      if(content.statusCode = 200){
+        event.preventDefault();
+        this.props.history.push(`/list-books`);
+      }
+    })()
   }
 
   render() {
@@ -71,26 +74,28 @@ export class AddBook extends Component {
         <h3>Add New Book</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label>Title:  </label>
+            <label>Title:  </label> <label className='mark-required'> *</label>
             <input
               type="text"
               className="form-control"
               name="title"
               value={this.state.book.title}
               onChange={this.handleInputChange}
+              required="required"
             />
           </div>
           <div className="form-group">
-            <label>Author: </label>
+            <label>Author: </label> <label className='mark-required'> *</label>
             <input type="text"
               name="author"
               className="form-control"
               value={this.state.book.author}
               onChange={this.handleInputChange}
+              required="required"
             />
           </div>
           <div className="form-group">
-            <label>Authos: </label>
+            <label>Publisher: </label>
             <input type="text"
               name="publisher"
               className="form-control"
@@ -98,7 +103,6 @@ export class AddBook extends Component {
               onChange={this.handleInputChange}
             />
           </div>
-
           <div className="form-group">
             <label>Publish Date: </label>
             <input type="date" data-date-format="YYYY"
@@ -109,7 +113,7 @@ export class AddBook extends Component {
             />
           </div>
           <div className="form-group">
-            <input onClick={this.saveBook.bind(this)} type="submit" value="Save" className="btn btn-primary" />
+            <input onClick={this.saveBook.bind(this)} type='submit' value="Save" className="btn btn-primary" />
           </div>
         </form>
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { API_CONFIG } from '../config/api-config.js';
+import './ListBook.css';
 
 export class ListBooks extends Component {
   static displayName = "Test";
@@ -53,13 +54,11 @@ export class ListBooks extends Component {
               <td>{book.title}</td>
               <td>{book.author}</td>
               <td>{book.publisher}</td>
-              <td>{book.publishDate}</td>
+              <td>{ book.publishDate == undefined ? book.publishDate : new Date(book.publishDate).toLocaleDateString('en-GB') }</td>
               <td>
                 <div>
+                  <button onClick={() => this.editBook(book)}  className="btn btn-info">Edit</button>
                   <button onClick={() => this.deleteBook(book.id)}  className="btn btn-danger">Delete</button>
-                </div>
-                <div>
-                <button onClick={() => this.editBook(book)}  className="btn btn-primary">Edit</button>
                 </div>
               </td>
             </tr>
@@ -77,8 +76,7 @@ export class ListBooks extends Component {
 
     return (
       <div>
-        <h1>Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server.</p>
+        <h1>Books List</h1>
         <button onClick={this.addBook}  className="btn btn-primary">Add Book</button>
         <p></p>
         {contents}
